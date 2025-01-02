@@ -1,11 +1,12 @@
 package accounts
 
 import (
-	"github.com/algorandfoundation/algorun-tui/internal/algod"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
 	"sort"
 	"strconv"
 	"time"
+
+	"github.com/algorandfoundation/algorun-tui/internal/algod"
+	"github.com/algorandfoundation/algorun-tui/ui/style"
 
 	"github.com/charmbracelet/bubbles/table"
 	"github.com/charmbracelet/lipgloss"
@@ -26,13 +27,13 @@ type ViewModel struct {
 
 func New(state *algod.StateModel) ViewModel {
 	m := ViewModel{
-		Title:       "Accounts",
+		Title:       "",
 		Width:       0,
 		Height:      0,
 		BorderColor: "6",
 		Data:        state,
 		Controls:    "( (g)enerate )",
-		Navigation:  "| " + style.Green.Render("accounts") + " | keys |",
+		Navigation:  "",
 	}
 
 	m.table = table.New(
@@ -51,6 +52,12 @@ func New(state *algod.StateModel) ViewModel {
 		Background(lipgloss.Color(m.BorderColor)).
 		Bold(false)
 	m.table.SetStyles(s)
+	if len(m.Data.Accounts) == 0 {
+		m.Title = "Welcome to Nodekit"
+	} else {
+		m.Title = "Accounts"
+		m.Navigation = "| " + style.Green.Render("accounts") + " | keys |"
+	}
 	return m
 }
 
@@ -58,12 +65,30 @@ func (m ViewModel) SelectedAccount() *algod.Account {
 	var account *algod.Account
 	var selectedRow = m.table.SelectedRow()
 	if selectedRow != nil {
-		selectedAccount := m.Data.Accounts[selectedRow[0]]
+		selectedAccount, ok := m.Data.Accounts[selectedRow[0]]
+		if !ok {
+			return account
+		}
 		account = &selectedAccount
 	}
 	return account
 }
 func (m ViewModel) makeColumns(width int) []table.Column {
+	if len(m.Data.Accounts) == 0 {
+		msg := ""
+		if m.Data.Status.State != algod.StableState {
+			msg = "Catching up real quick"
+		} else {
+			msg = "Ready?"
+		}
+		return []table.Column{
+			{Title: " " + msg, Width: (width - lipgloss.Width(style.Border.Render("")))},
+			{Title: "", Width: 0},
+			{Title: "", Width: 0},
+			{Title: "", Width: 0},
+			{Title: "", Width: 0},
+		}
+	}
 	avgWidth := (width - lipgloss.Width(style.Border.Render("")) - 9) / 5
 	return []table.Column{
 		{Title: "Account", Width: avgWidth},
@@ -76,7 +101,22 @@ func (m ViewModel) makeColumns(width int) []table.Column {
 
 func (m ViewModel) makeRows() *[]table.Row {
 	rows := make([]table.Row, 0)
-
+	if len(m.Data.Accounts) == 0 {
+		msg := ""
+		if m.Data.Status.State != algod.StableState {
+			msg = "Please wait while your node syncs with the network"
+		} else {
+			msg = "Press G to generate new participation keys"
+		}
+		rows = append(rows, table.Row{
+			" " + msg,
+			"",
+			"",
+			"",
+			"",
+		})
+		return &rows
+	}
 	for addr := range m.Data.Accounts {
 		var expires = "N/A"
 		if m.Data.Accounts[addr].Expires != nil {

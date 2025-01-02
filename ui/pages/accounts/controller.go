@@ -20,7 +20,13 @@ func (m ViewModel) HandleMessage(msg tea.Msg) (ViewModel, tea.Cmd) {
 	switch msg := msg.(type) {
 	case *algod.StateModel:
 		m.Data = msg
+		m.table.SetColumns(m.makeColumns(m.Width))
 		m.table.SetRows(*m.makeRows())
+		if len(m.Data.Accounts) == 0 {
+			m.Title = "Welcome to Nodekit"
+		} else {
+			m.Title = "Accounts"
+		}
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "enter":
