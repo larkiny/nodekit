@@ -19,11 +19,12 @@ var (
 			Height(height).
 			BorderForeground(lipgloss.Color(color))
 	}
-
-	Blue = func() lipgloss.Style {
-		return lipgloss.NewStyle().Foreground(lipgloss.Color("12"))
+	MarketingBlue = lipgloss.NewStyle().Foreground(lipgloss.Color("#2d2df1")).Render
+	MarketingTeal = lipgloss.NewStyle().Foreground(lipgloss.Color("#17CAC6")).Render
+	Blue          = func() lipgloss.Style {
+		return lipgloss.NewStyle().Foreground(lipgloss.Color("#12"))
 	}()
-	Cyan    = lipgloss.NewStyle().Foreground(lipgloss.Color("14"))
+	Cyan    = lipgloss.NewStyle().Foreground(lipgloss.Color("#14"))
 	Yellow  = lipgloss.NewStyle().Foreground(lipgloss.Color("11"))
 	Green   = lipgloss.NewStyle().Foreground(lipgloss.Color("10"))
 	Red     = lipgloss.NewStyle().Foreground(lipgloss.Color("9"))
@@ -177,4 +178,29 @@ func TruncateLeft(line string, padding int) string {
 	}
 
 	return ansiStyle + strings.Join(wrapped[1:], "")
+}
+
+const BANNER_NODE = `
+███    ██  ██████  ██████  ███████ 
+████   ██ ██    ██ ██   ██ ██      
+██ ██  ██ ██    ██ ██   ██ █████   
+██  ██ ██ ██    ██ ██   ██ ██      
+██   ████  ██████  ██████  ███████ `
+const BANNER_KIT = `
+██╗  ██╗██╗████████╗
+██║ ██╔╝██║╚══██╔══╝
+█████╔╝ ██║   ██║   
+██╔═██╗ ██║   ██║   
+██║  ██╗██║   ██║   
+╚═╝  ╚═╝╚═╝   ╚═╝`
+
+var BANNER string
+
+func init() {
+	var res string
+	lines := strings.Split(BANNER_KIT, "\n")
+	for i, line := range strings.Split(BANNER_NODE, "\n") {
+		res += MarketingBlue(line) + MarketingTeal(lines[i]) + "\n"
+	}
+	BANNER = res
 }

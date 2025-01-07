@@ -1,14 +1,15 @@
 package modal
 
 import (
-	"github.com/algorandfoundation/algorun-tui/api"
-	"github.com/algorandfoundation/algorun-tui/internal"
-	"github.com/algorandfoundation/algorun-tui/ui/app"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/confirm"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/exception"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/generate"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/info"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/transaction"
+	"github.com/algorandfoundation/nodekit/api"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/internal/algod/participation"
+	"github.com/algorandfoundation/nodekit/ui/app"
+	"github.com/algorandfoundation/nodekit/ui/modals/confirm"
+	"github.com/algorandfoundation/nodekit/ui/modals/exception"
+	"github.com/algorandfoundation/nodekit/ui/modals/generate"
+	"github.com/algorandfoundation/nodekit/ui/modals/info"
+	"github.com/algorandfoundation/nodekit/ui/modals/transaction"
 )
 
 type ViewModel struct {
@@ -22,9 +23,16 @@ type ViewModel struct {
 	Height int
 
 	// State for Context/Client
-	State *internal.StateModel
+	State *algod.StateModel
 	// Address defines the string format address of the entity
 	Address string
+
+	// HasPrefix indicates whether a prefix is used or active.
+	HasPrefix bool
+
+	// Link represents a reference to a ShortLinkResponse,
+	// typically used for processing or displaying shortened link data.
+	Link *participation.ShortLinkResponse
 
 	// Views
 	infoModal        *info.ViewModel
@@ -40,15 +48,20 @@ type ViewModel struct {
 	Type        app.ModalType
 }
 
+// SetAddress updates the ViewModel's Address property and synchronizes it with the associated generateModal.
 func (m *ViewModel) SetAddress(address string) {
 	m.Address = address
 	m.generateModal.SetAddress(address)
 }
+
+// SetKey updates the participation key across infoModal, confirmModal, and transactionModal in the ViewModel.
 func (m *ViewModel) SetKey(key *api.ParticipationKey) {
 	m.infoModal.Participation = key
 	m.confirmModal.ActiveKey = key
 	m.transactionModal.Participation = key
 }
+
+// SetActive sets the active state for both infoModal and transactionModal, and updates their respective states.
 func (m *ViewModel) SetActive(active bool) {
 	m.infoModal.Active = active
 	m.infoModal.UpdateState()
@@ -56,6 +69,12 @@ func (m *ViewModel) SetActive(active bool) {
 	m.transactionModal.UpdateState()
 }
 
+func (m *ViewModel) SetShortLink(res participation.ShortLinkResponse) {
+	m.Link = &res
+	m.transactionModal.Link = &res
+}
+
+// SetType updates the modal type of the ViewModel and configures its title, controls, and border color accordingly.
 func (m *ViewModel) SetType(modal app.ModalType) {
 	m.Type = modal
 	switch modal {
@@ -82,7 +101,8 @@ func (m *ViewModel) SetType(modal app.ModalType) {
 	}
 }
 
-func New(parent string, open bool, state *internal.StateModel) *ViewModel {
+// New initializes and returns a new ViewModel with the specified parent, open state, and application StateModel.
+func New(parent string, open bool, state *algod.StateModel) *ViewModel {
 	return &ViewModel{
 		Parent: parent,
 		Open:   open,
@@ -90,8 +110,9 @@ func New(parent string, open bool, state *internal.StateModel) *ViewModel {
 		Width:  0,
 		Height: 0,
 
-		Address: "",
-		State:   state,
+		Address:   "",
+		HasPrefix: false,
+		State:     state,
 
 		infoModal:        info.New(state),
 		transactionModal: transaction.New(state),

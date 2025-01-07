@@ -1,9 +1,9 @@
 package accounts
 
 import (
-	"github.com/algorandfoundation/algorun-tui/internal"
-	"github.com/algorandfoundation/algorun-tui/ui/app"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/ui/app"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
@@ -18,8 +18,8 @@ func (m ViewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m ViewModel) HandleMessage(msg tea.Msg) (ViewModel, tea.Cmd) {
 	switch msg := msg.(type) {
-	case internal.StateModel:
-		m.Data = &msg
+	case *algod.StateModel:
+		m.Data = msg
 		m.table.SetRows(*m.makeRows())
 	case tea.KeyMsg:
 		switch msg.String() {

@@ -1,11 +1,12 @@
 package modal
 
 import (
-	"github.com/algorandfoundation/algorun-tui/ui/app"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/ui/app"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	"github.com/charmbracelet/lipgloss"
 )
 
+// View renders the current modal's UI based on its type and state, or returns the parent content if the modal is closed.
 func (m ViewModel) View() string {
 	if !m.Open {
 		return m.Parent

@@ -2,16 +2,16 @@ package app
 
 import (
 	"context"
-	"github.com/algorandfoundation/algorun-tui/internal"
-	"github.com/algorandfoundation/algorun-tui/internal/test"
-	uitest "github.com/algorandfoundation/algorun-tui/ui/internal/test"
+	"github.com/algorandfoundation/nodekit/internal/algod/participation"
+	"github.com/algorandfoundation/nodekit/internal/test"
+	uitest "github.com/algorandfoundation/nodekit/ui/internal/test"
 	"testing"
 	"time"
 )
 
 func Test_GenerateCmd(t *testing.T) {
 	client := test.GetClient(false)
-	fn := GenerateCmd("ABC", internal.TimeRange, int(time.Second*60), uitest.GetState(client))
+	fn := GenerateCmd("ABC", participation.TimeRange, int(time.Second*60), uitest.GetState(client))
 	res := fn()
 	evt, ok := res.(ModalEvent)
 	if !ok {
@@ -22,7 +22,7 @@ func Test_GenerateCmd(t *testing.T) {
 	}
 
 	client = test.GetClient(true)
-	fn = GenerateCmd("ABC", internal.TimeRange, int(time.Second*60), uitest.GetState(client))
+	fn = GenerateCmd("ABC", participation.TimeRange, int(time.Second*60), uitest.GetState(client))
 	res = fn()
 	evt, ok = res.(ModalEvent)
 	if !ok {
@@ -46,7 +46,7 @@ func Test_EmitDeleteKey(t *testing.T) {
 		t.Error("Expected ABC")
 	}
 	if evt.Err != nil {
-		t.Error("Expected no errors")
+		t.Error("Expected no msgs")
 	}
 
 	client = test.GetClient(true)
@@ -60,7 +60,7 @@ func Test_EmitDeleteKey(t *testing.T) {
 		t.Error("Expected no response")
 	}
 	if evt.Err == nil {
-		t.Error("Expected errors")
+		t.Error("Expected msgs")
 	}
 
 }

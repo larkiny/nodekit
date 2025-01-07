@@ -2,117 +2,84 @@ package cmd
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"github.com/algorandfoundation/algorun-tui/api"
-	"github.com/algorandfoundation/algorun-tui/internal"
-	"github.com/algorandfoundation/algorun-tui/ui"
-	"github.com/algorandfoundation/algorun-tui/ui/explanations"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/api"
+	"github.com/algorandfoundation/nodekit/cmd/catchup"
+	"github.com/algorandfoundation/nodekit/cmd/configure"
+	"github.com/algorandfoundation/nodekit/cmd/utils"
+	"github.com/algorandfoundation/nodekit/cmd/utils/explanations"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/internal/system"
+	"github.com/algorandfoundation/nodekit/ui"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
-	"github.com/oapi-codegen/oapi-codegen/v2/pkg/securityprovider"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"io"
-	"os"
-	"strings"
+	"runtime"
 )
 
-const BANNER = `
-   _____  .__                __________              
-  /  _  \ |  |    ____   ____\______   \__ __  ____  
- /  /_\  \|  |   / ___\ /  _ \|       _/  |  \/    \ 
-/    |    \  |__/ /_/  >  <_> )    |   \  |  /   |  \
-\____|__  /____/\___  / \____/|____|_  /____/|___|  /
-        \/     /_____/               \/           \/ 
-`
-
 var (
-	algod   string
-	token   = strings.Repeat("a", 64)
+	Name = "nodekit"
+
+	// algodEndpoint defines the URI address of the Algorand node, including the protocol (http/https), for client communication.
+	algodData string
+
+	// Version represents the application version string, which is set during build or defaults to "unknown".
 	Version = ""
-	rootCmd = &cobra.Command{
-		Use:   "algorun",
-		Short: "Manage Algorand nodes",
-		Long:  style.Purple(BANNER) + "\n",
+
+	// force indicates whether actions should be performed forcefully, bypassing checks or confirmations.
+	force bool = false
+
+	short = "Manage Algorand nodes from the command line"
+	long  = lipgloss.JoinVertical(
+		lipgloss.Left,
+		style.Purple(style.BANNER),
+		"",
+		style.Bold(short),
+		"",
+		style.BoldUnderline("Overview:"),
+		"Welcome to NodeKit, a TUI for managing Algorand nodes.",
+		"A one stop shop for managing Algorand nodes, including node creation, configuration, and management.",
+		"",
+		style.Yellow.Render(explanations.ExperimentalWarning),
+	)
+	// RootCmd is the primary command for managing Algorand nodes, providing CLI functionality and TUI for interaction.
+	RootCmd = utils.WithAlgodFlags(&cobra.Command{
+		Use:     Name,
+		Version: Version,
+		Short:   short,
+		Long:    long,
 		CompletionOptions: cobra.CompletionOptions{
 			DisableDefaultCmd: true,
 		},
-		RunE: func(cmd *cobra.Command, args []string) error {
+		Run: func(cmd *cobra.Command, args []string) {
 			log.SetOutput(cmd.OutOrStdout())
-			initConfig()
-
-			if viper.GetString("algod-endpoint") == "" {
-				return fmt.Errorf(style.Red.Render("algod-endpoint is required") + explanations.NodeNotFound)
-			}
-
-			if viper.GetString("algod-token") == "" {
-				return fmt.Errorf(style.Red.Render("algod-token is required"))
-			}
-
-			client, err := getClient()
-			cobra.CheckErr(err)
-
+			// Create the dependencies
 			ctx := context.Background()
-			v, err := client.GetStatusWithResponse(ctx)
-			if err != nil {
-				return fmt.Errorf(
-					style.Red.Render("failed to get status: %s")+explanations.Unreachable,
-					err)
-			} else if v.StatusCode() == 401 {
-				return fmt.Errorf(
-					style.Red.Render("failed to get status: Unauthorized") + explanations.TokenInvalid)
-			} else if v.StatusCode() != 200 {
-				return fmt.Errorf(
-					style.Red.Render("failed to get status: error code %d")+explanations.TokenNotAdmin,
-					v.StatusCode())
-			}
-
-			partkeys, err := internal.GetPartKeys(ctx, client)
-			if err != nil {
-				return fmt.Errorf(
-					style.Red.Render("failed to get participation keys: %s")+
-						explanations.TokenNotAdmin,
-					err)
-			}
-			state := internal.StateModel{
-				Status: internal.StatusModel{
-					State:       "INITIALIZING",
-					Version:     "N/A",
-					Network:     "N/A",
-					Voting:      false,
-					NeedsUpdate: true,
-					LastRound:   0,
-				},
-				Metrics: internal.MetricsModel{
-					RoundTime: 0,
-					TPS:       0,
-					RX:        0,
-					TX:        0,
-				},
-				ParticipationKeys: partkeys,
-
-				Client:  client,
-				Context: ctx,
-			}
-			state.Accounts, err = internal.AccountsFromState(&state, new(internal.Clock), client)
+			client, err := algod.GetClient(algodData)
 			cobra.CheckErr(err)
-			// Fetch current state
-			err = state.Status.Fetch(ctx, client, new(internal.HttpPkg))
+			httpPkg := new(api.HttpPkg)
+			t := new(system.Clock)
+			// Fetch the state and handle any creation errors
+			state, stateResponse, err := algod.NewStateModel(ctx, client, httpPkg)
+			utils.WithInvalidResponsesExplanations(err, stateResponse, cmd.UsageString())
 			cobra.CheckErr(err)
 
-			m, err := ui.NewViewportViewModel(&state, client)
+			// Construct the TUI Model from the State
+			m, err := ui.NewViewportViewModel(state, client)
 			cobra.CheckErr(err)
 
+			// Construct the TUI Application
 			p := tea.NewProgram(
 				m,
 				tea.WithAltScreen(),
 				tea.WithFPS(120),
 			)
+
+			// Watch for State Updates on a separate thread
+			// TODO: refactor into context aware watcher without callbacks
 			go func() {
-				state.Watch(func(status *internal.StateModel, err error) {
+				state.Watch(func(status *algod.StateModel, err error) {
 					if err == nil {
 						p.Send(state)
 					}
@@ -120,165 +87,62 @@ var (
 						p.Send(state)
 						p.Send(err)
 					}
-				}, ctx, client)
+				}, ctx, t)
 			}()
+
+			// Execute the TUI Application
 			_, err = p.Run()
-			return err
+			if err != nil {
+				log.Fatal(err)
+			}
 		},
-	}
+	}, &algodData)
 )
 
-func check(err interface{}) {
-	if err != nil {
-		panic(err)
+// NeedsToBeRunning ensures the Algod software is installed and running before executing the associated Cobra command.
+func NeedsToBeRunning(cmd *cobra.Command, args []string) {
+	if force {
+		return
+	}
+	if !algod.IsInstalled() {
+		log.Fatal(explanations.NotInstalledErrorMsg)
+	}
+	if !algod.IsRunning() {
+		log.Fatal(explanations.NotRunningErrorMsg)
 	}
 }
 
-// Handle global flags and set usage templates
+// NeedsToBeStopped ensures the operation halts if Algod is not installed or is currently running, unless forced.
+func NeedsToBeStopped(cmd *cobra.Command, args []string) {
+	if force {
+		return
+	}
+	if !algod.IsInstalled() {
+		log.Fatal(explanations.NotInstalledErrorMsg)
+	}
+	if algod.IsRunning() {
+		log.Fatal(explanations.RunningErrorMsg)
+	}
+}
+
+// init initializes the application, setting up logging, commands, and version information.
 func init() {
 	log.SetReportTimestamp(false)
-
-	// Configure Version
-	if Version == "" {
-		Version = "unknown (built from source)"
-	}
-	rootCmd.Version = Version
-
-	// Bindings
-	rootCmd.PersistentFlags().StringVarP(&algod, "algod-endpoint", "a", "", style.LightBlue("algod endpoint address URI, including http[s]"))
-	rootCmd.PersistentFlags().StringVarP(&token, "algod-token", "t", "", lipgloss.JoinHorizontal(
-		lipgloss.Left,
-		style.LightBlue("algod "),
-		style.BoldUnderline("admin"),
-		style.LightBlue(" token"),
-	))
-	_ = viper.BindPFlag("algod-endpoint", rootCmd.PersistentFlags().Lookup("algod-endpoint"))
-	_ = viper.BindPFlag("algod-token", rootCmd.PersistentFlags().Lookup("algod-token"))
-
-	// Update Long Text
-	rootCmd.Long +=
-		style.Magenta("Configuration: ") + viper.GetViper().ConfigFileUsed() + "\n" +
-			style.LightBlue("Algod: ") + viper.GetString("algod-endpoint")
-
-	if viper.GetString("data") != "" {
-		rootCmd.Long +=
-			style.Magenta("\nAlgorand Data: ") + viper.GetString("data")
-	}
-
 	// Add Commands
-	rootCmd.AddCommand(statusCmd)
+	if runtime.GOOS != "windows" {
+		RootCmd.AddCommand(bootstrapCmd)
+		RootCmd.AddCommand(debugCmd)
+		RootCmd.AddCommand(installCmd)
+		RootCmd.AddCommand(startCmd)
+		RootCmd.AddCommand(stopCmd)
+		RootCmd.AddCommand(uninstallCmd)
+		RootCmd.AddCommand(upgradeCmd)
+		RootCmd.AddCommand(catchup.Cmd)
+		RootCmd.AddCommand(configure.Cmd)
+	}
 }
 
 // Execute executes the root command.
 func Execute() error {
-	return rootCmd.Execute()
-}
-
-type AlgodConfig struct {
-	EndpointAddress string `json:"EndpointAddress"`
-}
-
-func replaceEndpointUrl(s string) string {
-	s = strings.Replace(s, "\n", "", 1)
-	s = strings.Replace(s, "0.0.0.0", "127.0.0.1", 1)
-	s = strings.Replace(s, "[::]", "127.0.0.1", 1)
-	return s
-}
-func hasWildcardEndpointUrl(s string) bool {
-	return strings.Contains(s, "0.0.0.0") || strings.Contains(s, "::")
-}
-func initConfig() {
-	// Find home directory.
-	home, err := os.UserHomeDir()
-	cobra.CheckErr(err)
-
-	// Look for paths
-	viper.AddConfigPath(".")
-	viper.AddConfigPath(home)
-	viper.AddConfigPath("/etc/algorun/")
-
-	// Set Config Properties
-	viper.SetConfigType("yaml")
-	viper.SetConfigName(".algorun")
-	viper.SetEnvPrefix("algorun")
-
-	// Load Configurations
-	viper.AutomaticEnv()
-	_ = viper.ReadInConfig()
-
-	// Check for algod
-	loadedAlgod := viper.GetString("algod-endpoint")
-	loadedToken := viper.GetString("algod-token")
-
-	// Load ALGORAND_DATA/config.json
-	algorandData, exists := os.LookupEnv("ALGORAND_DATA")
-
-	// Load the Algorand Data Configuration
-	if exists && algorandData != "" && loadedAlgod == "" {
-		// Placeholder for Struct
-		var algodConfig AlgodConfig
-
-		dataConfigPath := algorandData + "/config.json"
-
-		// Open the config.json File
-		configFile, err := os.Open(dataConfigPath)
-		check(err)
-
-		// Read the bytes of the File
-		byteValue, _ := io.ReadAll(configFile)
-		err = json.Unmarshal(byteValue, &algodConfig)
-		check(err)
-
-		// Close the open handle
-		err = configFile.Close()
-		check(err)
-
-		// Check for endpoint address
-		if hasWildcardEndpointUrl(algodConfig.EndpointAddress) {
-			algodConfig.EndpointAddress = replaceEndpointUrl(algodConfig.EndpointAddress)
-		} else if algodConfig.EndpointAddress == "" {
-			// Assume it is not set, try to discover the port from the network file
-			networkPath := algorandData + "/algod.net"
-			networkFile, err := os.Open(networkPath)
-			check(err)
-
-			byteValue, err = io.ReadAll(networkFile)
-			check(err)
-
-			if hasWildcardEndpointUrl(string(byteValue)) {
-				algodConfig.EndpointAddress = replaceEndpointUrl(string(byteValue))
-			} else {
-				algodConfig.EndpointAddress = string(byteValue)
-			}
-
-		}
-		if strings.Contains(algodConfig.EndpointAddress, ":0") {
-			algodConfig.EndpointAddress = strings.Replace(algodConfig.EndpointAddress, ":0", ":8080", 1)
-		}
-		if loadedToken == "" {
-			// Handle Token Path
-			tokenPath := algorandData + "/algod.admin.token"
-
-			tokenFile, err := os.Open(tokenPath)
-			check(err)
-
-			byteValue, err = io.ReadAll(tokenFile)
-			check(err)
-
-			viper.Set("algod-token", strings.Replace(string(byteValue), "\n", "", 1))
-		}
-
-		// Set the algod configuration
-		viper.Set("algod-endpoint", "http://"+strings.Replace(algodConfig.EndpointAddress, "\n", "", 1))
-		viper.Set("data", dataConfigPath)
-	}
-
-}
-
-func getClient() (*api.ClientWithResponses, error) {
-	apiToken, err := securityprovider.NewSecurityProviderApiKey("header", "X-Algo-API-Token", viper.GetString("algod-token"))
-	if err != nil {
-		return nil, err
-	}
-	return api.NewClientWithResponses(viper.GetString("algod-endpoint"), api.WithRequestEditorFn(apiToken.Intercept))
+	return RootCmd.Execute()
 }

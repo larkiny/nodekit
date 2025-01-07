@@ -1,14 +1,18 @@
 package modal
 
 import (
-	"github.com/algorandfoundation/algorun-tui/internal"
-	"github.com/algorandfoundation/algorun-tui/ui/app"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/generate"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"fmt"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/internal/algod/participation"
+	"github.com/algorandfoundation/nodekit/ui/app"
+	"github.com/algorandfoundation/nodekit/ui/modals/generate"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"time"
 )
 
+// Init initializes the current ViewModel by batching initialization commands for all associated modal ViewModels.
 func (m ViewModel) Init() tea.Cmd {
 	return tea.Batch(
 		m.infoModal.Init(),
@@ -18,6 +22,8 @@ func (m ViewModel) Init() tea.Cmd {
 		m.generateModal.Init(),
 	)
 }
+
+// HandleMessage processes the given message, updates the ViewModel state, and returns any commands to execute.
 func (m ViewModel) HandleMessage(msg tea.Msg) (*ViewModel, tea.Cmd) {
 	var (
 		cmd  tea.Cmd
@@ -28,13 +34,43 @@ func (m ViewModel) HandleMessage(msg tea.Msg) (*ViewModel, tea.Cmd) {
 		m.Open = true
 		m.exceptionModal.Message = msg.Error()
 		m.SetType(app.ExceptionModal)
-	case internal.StateModel:
-		m.State = &msg
-		m.transactionModal.State = &msg
-		m.infoModal.State = &msg
+	case participation.ShortLinkResponse:
+		m.Open = true
+		m.SetShortLink(msg)
+		m.SetType(app.TransactionModal)
+	case *algod.StateModel:
+		// Clear the catchup modal
+		if msg.Status.State != algod.FastCatchupState && m.Type == app.ExceptionModal && m.title == "Fast Catchup" {
+			m.Open = false
+			m.SetType(app.InfoModal)
+		}
 
-		// When the state changes, and we are displaying a valid QR Code/Transaction Modal
-		if m.Type == app.TransactionModal && m.transactionModal.Participation != nil {
+		m.State = msg
+		m.transactionModal.State = msg
+		m.infoModal.State = msg
+
+		// On Fast-Catchup, handle the state as an exception modal
+		if m.State.Status.State == algod.FastCatchupState {
+			m.Open = true
+			m.SetType(app.ExceptionModal)
+			m.exceptionModal.Message = style.LightBlue(lipgloss.JoinVertical(lipgloss.Top,
+				"Please wait while your node syncs with the network.",
+				"This process can take up to an hour.",
+				"",
+				fmt.Sprintf("Accounts Processed:   %d / %d", m.State.Status.CatchpointAccountsProcessed, m.State.Status.CatchpointAccountsTotal),
+				fmt.Sprintf("Accounts Verified:    %d / %d", m.State.Status.CatchpointAccountsVerified, m.State.Status.CatchpointAccountsTotal),
+				fmt.Sprintf("Key Values Processed: %d / %d", m.State.Status.CatchpointKeyValueProcessed, m.State.Status.CatchpointKeyValueTotal),
+				fmt.Sprintf("Key Values Verified:  %d / %d", m.State.Status.CatchpointKeyValueVerified, m.State.Status.CatchpointKeyValueTotal),
+				fmt.Sprintf("Downloaded blocks:    %d / %d", m.State.Status.CatchpointBlocksAcquired, m.State.Status.CatchpointBlocksTotal),
+				"",
+				fmt.Sprintf("Sync Time: %ds", m.State.Status.SyncTime/int(time.Second)),
+			))
+			m.borderColor = "7"
+			m.controls = ""
+			m.title = "Fast Catchup"
+
+		} else if m.Type == app.TransactionModal && m.transactionModal.Participation != nil {
+			// Get the existing account from the state
 			acct, ok := msg.Accounts[m.Address]
 			// If the previous state is not active
 			if ok {
@@ -43,6 +79,8 @@ func (m ViewModel) HandleMessage(msg tea.Msg) (*ViewModel, tea.Cmd) {
 						acct.Participation.VoteFirstValid == m.transactionModal.Participation.Key.VoteFirstValid {
 						m.SetActive(true)
 						m.infoModal.Active = true
+						m.infoModal.Prefix = "Successfully registered online!\n"
+						m.HasPrefix = true
 						m.SetType(app.InfoModal)
 					}
 				} else {
@@ -58,7 +96,15 @@ func (m ViewModel) HandleMessage(msg tea.Msg) (*ViewModel, tea.Cmd) {
 		}
 
 	case app.ModalEvent:
+		if msg.Type == app.ExceptionModal {
+			m.Open = true
+			m.exceptionModal.Message = msg.Err.Error()
+			m.generateModal.SetStep(generate.AddressStep)
+			m.SetType(app.ExceptionModal)
+		}
+
 		if msg.Type == app.InfoModal {
+			m.infoModal.Prefix = msg.Prefix
 			m.generateModal.SetStep(generate.AddressStep)
 		}
 		// On closing events
@@ -151,6 +197,8 @@ func (m ViewModel) HandleMessage(msg tea.Msg) (*ViewModel, tea.Cmd) {
 
 	return &m, tea.Batch(cmds...)
 }
+
+// Update processes the given message, updates the ViewModel state, and returns the updated model and accompanying commands.
 func (m ViewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m.HandleMessage(msg)
 }

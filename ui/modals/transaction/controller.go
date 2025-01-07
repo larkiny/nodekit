@@ -3,9 +3,9 @@ package transaction
 import (
 	"encoding/base64"
 	"github.com/algorand/go-algorand-sdk/v2/types"
-	"github.com/algorandfoundation/algorun-tui/internal"
-	"github.com/algorandfoundation/algorun-tui/ui/app"
 	"github.com/algorandfoundation/algourl/encoder"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/ui/app"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -43,7 +43,7 @@ func (m ViewModel) HandleMessage(msg tea.Msg) (*ViewModel, tea.Cmd) {
 	m.UpdateState()
 	return &m, cmd
 }
-func (m *ViewModel) Account() *internal.Account {
+func (m *ViewModel) Account() *algod.Account {
 	if m.Participation == nil || m.State == nil || m.State.Accounts == nil {
 		return nil
 	}

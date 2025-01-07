@@ -1,17 +1,17 @@
 package ui
 
 import (
-	"github.com/algorandfoundation/algorun-tui/internal"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"strconv"
 	"strings"
 )
 
-// ProtocolViewModel includes the internal.StatusModel and internal.MetricsModel
+// ProtocolViewModel includes the internal.StatusModel and internal.Model
 type ProtocolViewModel struct {
-	Data           internal.StatusModel
+	Data           algod.Status
 	TerminalWidth  int
 	TerminalHeight int
 	IsVisible      bool
@@ -32,7 +32,7 @@ func (m ProtocolViewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m ProtocolViewModel) HandleMessage(msg tea.Msg) (ProtocolViewModel, tea.Cmd) {
 	switch msg := msg.(type) {
 	// Handle a Status Update
-	case internal.StatusModel:
+	case algod.Status:
 		m.Data = msg
 		return m, nil
 	// Update Viewport Size
@@ -96,7 +96,7 @@ func (m ProtocolViewModel) View() string {
 }
 
 // MakeProtocolViewModel constructs a ProtocolViewModel using a given StatusModel and predefined metrics.
-func MakeProtocolViewModel(state *internal.StateModel) ProtocolViewModel {
+func MakeProtocolViewModel(state *algod.StateModel) ProtocolViewModel {
 	return ProtocolViewModel{
 		Data:           state.Status,
 		TerminalWidth:  0,
