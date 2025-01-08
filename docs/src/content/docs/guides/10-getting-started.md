@@ -24,6 +24,9 @@ It will then immediately start the bootstrap process to get your Algorand node u
 
 ![Screenshot of a typical Nodekit installation process](/assets/nodekit-install.png)
 
-**Did you encounted any errors?** Check out the [Troubleshooting: Getting Started](/troubleshooting/10-getting-started) section.
+:::note
+**Did you encounted any errors?**
+Check out the [Troubleshooting: Getting Started](/troubleshooting/10-getting-started) section.
+:::
 
 Otherwise, read on for guidance on the bootstrapping process.

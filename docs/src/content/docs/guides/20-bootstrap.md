@@ -66,5 +66,7 @@ This process usually takes between 30-60 minutes, depending on your hardware and
 
 When the process is done, the Fast Catchup status information will disappear and the yellow `FAST-CATCHUP` status at the top will change to a green `RUNNING` state.
 
-**Did you encounted any errors?** Check out the [Troubleshooting: Installing and bootstrapping the Algorand node](/troubleshooting/20-bootstrap) section.
-
+:::note
+**Did you encounted any errors?**
+Check out the [Troubleshooting: Installing and bootstrapping the Algorand node](/troubleshooting/20-bootstrap) section.
+:::
