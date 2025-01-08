@@ -57,23 +57,21 @@ trap "info Exiting the installation" exit
 case $os in
 'Darwin x86_64')
     platform=amd64-darwin
-    target=nodekit-$platform
     ;;
 'Darwin arm64')
     platform=arm64-darwin
-    target=nodekit-$platform
     ;;
 'Linux aarch64' | 'Linux arm64')
     platform=arm64-linux
-    target=nodekit-$platform
     ;;
 'Linux x86_64' | *)
     platform=amd64-linux
-    target=nodekit-$platform
     ;;
 esac
  
+target="nodekit-$platform"
 url="$release/$target"
+
 echo -e "${Opaque}Downloading:${Reset}${Bold_White} $target ${Reset}from $url"
 curl --fail --location --progress-bar --output nodekit "$url" ||
   error "Failed to download ${target} from ${release} ${url}"
