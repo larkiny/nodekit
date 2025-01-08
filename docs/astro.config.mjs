@@ -16,13 +16,14 @@ export default defineConfig({
 				github: 'https://github.com/algorandfoundation/nodekit',
 			},
 			sidebar: [
-				// {
-				// 	label: 'Guides',
-				// 	items: [
-				// 		// Each item here is one entry in the navigation menu.
-				// 		{ label: 'Example Guide', slug: 'guides/example' },
-				// 	],
-				// },
+				{
+					label: 'Guides',
+					autogenerate: { directory: 'guides' },
+				},
+				{
+					label: 'Troubleshooting',
+					autogenerate: { directory: 'troubleshooting' },
+				},
 				{
 					label: 'Reference',
 					// collapsed: true,
