@@ -3,7 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/algorandfoundation/algorun-tui/internal/system"
+	"github.com/algorandfoundation/nodekit/internal/system"
 	"github.com/spf13/cobra"
 	"os"
 	"path/filepath"
@@ -11,6 +11,8 @@ import (
 	"strings"
 	"time"
 )
+
+const AlgodNetEndpointFileMissingAddress = "missing://endpoint"
 
 type DataFolderConfig struct {
 	Path     string `json:"path"`
@@ -36,10 +38,7 @@ func ToDataFolderConfig(path string) (DataFolderConfig, error) {
 		return dataFolderConfig, err
 	}
 
-	dataFolderConfig.Endpoint, err = GetEndpointFromDataDir(path)
-	if err != nil {
-		return dataFolderConfig, err
-	}
+	dataFolderConfig.Endpoint, _ = GetEndpointFromDataDir(path)
 	dataFolderConfig.PID, _ = GetPidFromDataDir(path)
 
 	return dataFolderConfig, nil
@@ -153,7 +152,7 @@ func GetEndpointFromDataDir(path string) (string, error) {
 	var endpoint string
 	file, err := os.ReadFile(path + "/algod.net")
 	if err != nil {
-		return endpoint, err
+		return AlgodNetEndpointFileMissingAddress, nil
 	}
 
 	endpoint = "http://" + ReplaceEndpointUrl(string(file))

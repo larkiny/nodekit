@@ -3,16 +3,16 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"github.com/algorandfoundation/algorun-tui/api"
-	cmdutils "github.com/algorandfoundation/algorun-tui/cmd/utils"
-	"github.com/algorandfoundation/algorun-tui/cmd/utils/explanations"
-	"github.com/algorandfoundation/algorun-tui/internal/algod"
-	"github.com/algorandfoundation/algorun-tui/internal/algod/utils"
-	"github.com/algorandfoundation/algorun-tui/internal/system"
-	"github.com/algorandfoundation/algorun-tui/ui"
-	"github.com/algorandfoundation/algorun-tui/ui/app"
-	"github.com/algorandfoundation/algorun-tui/ui/bootstrap"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/api"
+	cmdutils "github.com/algorandfoundation/nodekit/cmd/utils"
+	"github.com/algorandfoundation/nodekit/cmd/utils/explanations"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/internal/algod/utils"
+	"github.com/algorandfoundation/nodekit/internal/system"
+	"github.com/algorandfoundation/nodekit/ui"
+	"github.com/algorandfoundation/nodekit/ui/app"
+	"github.com/algorandfoundation/nodekit/ui/bootstrap"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
@@ -21,9 +21,10 @@ import (
 	"time"
 )
 
-var bootstrapCmdShort = "Initialize a fresh node. Alias for install, catchup, and start."
+// bootstrapCmdShort provides a brief description of the "bootstrap" command to initialize a fresh Algorand node.
+var bootstrapCmdShort = "Initialize a fresh node"
 
-// cmdLong provides a detailed description of the Fast-Catchup feature, explaining its purpose and expected sync durations.
+// bootstrapCmdLong provides a detailed description of the "bootstrap" command, including its purpose and functionality.
 var bootstrapCmdLong = lipgloss.JoinVertical(
 	lipgloss.Left,
 	style.BANNER,
@@ -41,8 +42,6 @@ var tutorial = `# Welcome!
 
 This is the beginning of your adventure into running the an Algorand node!
 
-Morbi mauris quam, ornare ac commodo et, posuere id sem. Nulla id condimentum mauris. In vehicula sit amet libero vitae interdum. Nullam ac massa in erat volutpat sodales. Integer imperdiet enim cursus, ullamcorper tortor vel, imperdiet diam. Maecenas viverra ex iaculis, vehicula ligula quis, cursus lorem. Mauris nec nunc feugiat tortor sollicitudin porta ac quis turpis. Nam auctor hendrerit metus et pharetra.
-
 `
 
 // bootstrapCmd defines the "debug" command used to display diagnostic information for developers, including debug data.
@@ -54,15 +53,21 @@ var bootstrapCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
 		httpPkg := new(api.HttpPkg)
-
+		r, _ := glamour.NewTermRenderer(
+			glamour.WithAutoStyle(),
+		)
 		fmt.Print(style.Purple(style.BANNER))
-		out, err := glamour.Render(tutorial, "dark")
+		out, err := r.Render(tutorial)
 		if err != nil {
 			return err
 		}
 		fmt.Println(out)
 
 		model := bootstrap.NewModel()
+		if algod.IsInstalled() {
+			model.BootstrapMsg.Install = false
+			model.Question = bootstrap.CatchupQuestion
+		}
 		p := tea.NewProgram(model)
 		var msg *app.BootstrapMsg
 		go func() {

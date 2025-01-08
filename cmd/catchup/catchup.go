@@ -2,10 +2,10 @@ package catchup
 
 import (
 	"context"
-	"github.com/algorandfoundation/algorun-tui/api"
-	"github.com/algorandfoundation/algorun-tui/cmd/utils"
-	"github.com/algorandfoundation/algorun-tui/internal/algod"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/api"
+	"github.com/algorandfoundation/nodekit/cmd/utils"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
@@ -17,9 +17,6 @@ var (
 
 	// defaultLag represents the default minimum catchup delay in milliseconds for the Fast Catchup process.
 	defaultLag int = 30_000
-
-	// force indicates whether to bypass certain checks or enforcement logic within a function or command execution flow.
-	force bool = false
 
 	// cmdLong provides a detailed description of the Fast-Catchup feature, explaining its purpose and expected sync durations.
 	cmdLong = lipgloss.JoinVertical(

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/algorandfoundation/algorun-tui/api"
+	"github.com/algorandfoundation/nodekit/api"
 )
 
 // RangeType represents a type of range, such as time-based or round-based, used in participation key generation.
@@ -65,6 +65,10 @@ func GenerateKeys(
 		return nil, err
 	}
 	if key.StatusCode() != 200 {
+		if key.JSON400 != nil {
+			return nil, errors.New(key.JSON400.Message)
+		}
+
 		status := key.Status()
 		if status != "" {
 			return nil, errors.New(status)

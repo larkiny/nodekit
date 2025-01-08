@@ -1,0 +1,37 @@
+---
+import { Code } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+
+const base = import.meta.env.BASE_URL;
+export const lang = "en"
+---
+<html lang="en" data-mode="dark" class="dark">
+
+<head>
+    <title>NodeKit - Algorand Foundation</title>
+    <meta name="description" content="One stop shop for Algorand node running"/>
+    <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style is:global>
+        html, body {
+            max-height: 100vh;
+            background: #001324;
+            scroll-behavior: smooth;
+            padding: 0;
+            margin: 0;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html,body {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="h-screen w-screen flex flex-col items-center justify-center gap-6">
+        <img src="/nodekit.png" alt="Algo Nodekit logo" />
+        <Code lang="shell" code={`curl -fsSL https://nodekit.run/install.sh | bash`} class="text-gray-200"/>
+        <a class="text-gray-200" href="/reference/nodekit">Follow the white rabbit <Icon name="external"/> </a>
+    </main>
+</body>
+</html>

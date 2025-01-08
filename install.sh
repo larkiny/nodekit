@@ -1,19 +1,10 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-
-
-
-BANNER='   _____  .__                __________
-   /  _  \ |  |    ____   ____\______   \__ __  ____
-  /  /_\  \|  |   / ___\ /  _ \|       _/  |  \/    \
- /    |    \  |__/ /_/  >  <_> )    |   \  |  /   |  \
- \____|__  /____/\___  / \____/|____|_  /____/|___|  /
-         \/     /_____/               \/           \/ '
   
 os=$(uname -ms)
-release="https://github.com/algorandfoundation/algorun-tui/releases/download"
-version="v1.0.0-beta.2"
+release="https://github.com/algorandfoundation/nodekit/releases/download"
+version="v1.0.0-beta.5"
 
 Red=''
 Green=''
@@ -33,7 +24,6 @@ if [[ -t 1 ]]; then
     Bold_Green='\033[1;32m'
     Bold_White='\033[1m'
     Opaque='\033[0;2m'
-    echo -e "${Blue} ${BANNER} ${Reset}"
 fi
 
 success() {
@@ -53,8 +43,8 @@ error() {
     exit 1
 }
 
-if [ -f algorun ]; then
-    error "An algorun file already exists in the current directory. Delete or rename it before installing."
+if [ -f nodekit ]; then
+    error "An nodekit file already exists in the current directory. Delete or rename it before installing."
 fi
 
 
@@ -67,28 +57,33 @@ trap "info Exiting the installation" exit
 
 case $os in
 'Darwin x86_64')
-    target=algorun-amd64-darwin
+    target=nodekit-amd64-darwin
     ;;
 'Darwin arm64')
-    target=algorun-arm64-darwin
+    target=nodekit-arm64-darwin
     ;;
 'Linux aarch64' | 'Linux arm64')
-    target=algorun-arm64-linux
+    target=nodekit-arm64-linux
     ;;
 'Linux x86_64' | *)
-    target=algorun-amd64-linux
+    target=nodekit-amd64-linux
     ;;
 esac
  
 echo -e "${Opaque}Downloading:${Reset}${Bold_White} $target $version${Reset}"
-curl --fail --location --progress-bar --output algorun "$release/$version/$target" ||
+curl --fail --location --progress-bar --output nodekit "$release/$version/$target" ||
   error "Failed to download ${target} from ${release}"
 
-chmod +x algorun
+chmod +x nodekit
 
 trap - int
 trap - exit
 
-success "Downloaded: ${Bold_Green}algorun ${version} 🎉${Reset}"
-info "Get started by running:"
-echo "./algorun --help"
+success "Downloaded: ${Bold_Green}nodekit ${version} 🎉${Reset}"
+info "Explore all nodekit options with:"
+echo "./nodekit --help"
+echo ""
+info "Starting nodekit bootstrap"
+echo "./nodekit bootstrap"
+
+./nodekit bootstrap

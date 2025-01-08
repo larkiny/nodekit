@@ -2,11 +2,11 @@ package algod
 
 import (
 	"context"
-	"github.com/algorandfoundation/algorun-tui/internal/algod/participation"
-	"github.com/algorandfoundation/algorun-tui/internal/system"
+	"github.com/algorandfoundation/nodekit/internal/algod/participation"
+	"github.com/algorandfoundation/nodekit/internal/system"
 	"time"
 
-	"github.com/algorandfoundation/algorun-tui/api"
+	"github.com/algorandfoundation/nodekit/api"
 )
 
 // StateModel represents the state of the application,
@@ -118,11 +118,18 @@ func (s *StateModel) Watch(cb func(model *StateModel, err error), ctx context.Co
 		}
 		// Abort on Fast-Catchup
 		if s.Status.State == FastCatchupState {
-			time.Sleep(time.Second * 10)
+			// Update current render
+			cb(s, nil)
+			// Wait for a while
+			time.Sleep(time.Second * 2)
+			// Check status
 			s.Status, _, err = s.Status.Get(ctx)
+			// Report errors
 			if err != nil {
 				cb(nil, err)
 			}
+			// Update render after status fetch
+			cb(s, nil)
 			continue
 		}
 

@@ -2,15 +2,18 @@ package configure
 
 import (
 	"errors"
-	"github.com/algorandfoundation/algorun-tui/cmd/utils/explanations"
-	"github.com/algorandfoundation/algorun-tui/internal/algod"
-	"github.com/algorandfoundation/algorun-tui/internal/system"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/cmd/utils/explanations"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/internal/system"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/cobra"
 )
 
+// serviceShort provides a brief description of the service command, emphasizing its role in installing service files.
 var serviceShort = "Install service files for the Algorand daemon."
+
+// serviceLong provides a detailed description of the service command, its purpose, and an experimental warning note.
 var serviceLong = lipgloss.JoinVertical(
 	lipgloss.Left,
 	style.Purple(style.BANNER),
@@ -22,6 +25,8 @@ var serviceLong = lipgloss.JoinVertical(
 	"",
 	style.Yellow.Render(explanations.ExperimentalWarning),
 )
+
+// serviceCmd is a Cobra command for managing Algorand service files, requiring root privileges to ensure proper execution.
 var serviceCmd = &cobra.Command{
 	Use:   "service",
 	Short: serviceShort,

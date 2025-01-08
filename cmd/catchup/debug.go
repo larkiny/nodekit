@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/algorandfoundation/algorun-tui/api"
-	"github.com/algorandfoundation/algorun-tui/cmd/utils"
-	"github.com/algorandfoundation/algorun-tui/internal/algod"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/api"
+	"github.com/algorandfoundation/nodekit/cmd/utils"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
@@ -33,7 +33,10 @@ type DebugInfo struct {
 	Catchpoint `json:"catchpoint"`
 }
 
+// debugCmdShort provides a concise description for the debug command, indicating it displays debug information for Fast-Catchup.
 var debugCmdShort = "Display debug information for Fast-Catchup."
+
+// debugCmdLong provides a detailed description for the debug command, focusing on debugging fast-catchup issues.
 var debugCmdLong = lipgloss.JoinVertical(
 	lipgloss.Left,
 	style.Purple(style.BANNER),

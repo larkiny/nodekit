@@ -1,15 +1,15 @@
 package modal
 
 import (
-	"github.com/algorandfoundation/algorun-tui/api"
-	"github.com/algorandfoundation/algorun-tui/internal/algod"
-	"github.com/algorandfoundation/algorun-tui/internal/algod/participation"
-	"github.com/algorandfoundation/algorun-tui/ui/app"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/confirm"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/exception"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/generate"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/info"
-	"github.com/algorandfoundation/algorun-tui/ui/modals/transaction"
+	"github.com/algorandfoundation/nodekit/api"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/internal/algod/participation"
+	"github.com/algorandfoundation/nodekit/ui/app"
+	"github.com/algorandfoundation/nodekit/ui/modals/confirm"
+	"github.com/algorandfoundation/nodekit/ui/modals/exception"
+	"github.com/algorandfoundation/nodekit/ui/modals/generate"
+	"github.com/algorandfoundation/nodekit/ui/modals/info"
+	"github.com/algorandfoundation/nodekit/ui/modals/transaction"
 )
 
 type ViewModel struct {
@@ -26,6 +26,9 @@ type ViewModel struct {
 	State *algod.StateModel
 	// Address defines the string format address of the entity
 	Address string
+
+	// HasPrefix indicates whether a prefix is used or active.
+	HasPrefix bool
 
 	// Link represents a reference to a ShortLinkResponse,
 	// typically used for processing or displaying shortened link data.
@@ -107,8 +110,9 @@ func New(parent string, open bool, state *algod.StateModel) *ViewModel {
 		Width:  0,
 		Height: 0,
 
-		Address: "",
-		State:   state,
+		Address:   "",
+		HasPrefix: false,
+		State:     state,
 
 		infoModal:        info.New(state),
 		transactionModal: transaction.New(state),

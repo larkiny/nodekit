@@ -3,10 +3,10 @@ package configure
 import (
 	"bytes"
 	"fmt"
-	"github.com/algorandfoundation/algorun-tui/cmd/utils/explanations"
-	"github.com/algorandfoundation/algorun-tui/internal/algod"
-	"github.com/algorandfoundation/algorun-tui/internal/algod/utils"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/cmd/utils/explanations"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/internal/algod/utils"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	"github.com/charmbracelet/lipgloss"
 	"os"
 	"os/exec"
@@ -17,7 +17,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var short = "Configure the Algorand daemon."
+// short holds a brief description of the system settings configuration command, currently marked as work in progress.
+var short = "Change settings on the system (WIP)"
+
+// long combines styled strings and descriptions for the detailed command overview displayed in the CLI.
 var long = lipgloss.JoinVertical(
 	lipgloss.Left,
 	style.Purple(style.BANNER),
@@ -67,7 +70,7 @@ func configureNode() error {
 	//
 
 	if !systemServiceConfigure {
-		fmt.Println("Configuring Data directory for algod started through Algorun...")
+		fmt.Println("Configuring Data directory for algod started through NodeKit...")
 	}
 
 	algorandData := os.Getenv("ALGORAND_DATA")
@@ -155,7 +158,7 @@ func configureNode() error {
 	}
 
 	// Deep search
-	if promptWrapperNo("Do you want Algorun to do a deep search for pre-existing Algorand Data directories? (y/n)") {
+	if promptWrapperNo("Do you want NodeKit to do a deep search for pre-existing Algorand Data directories? (y/n)") {
 		fmt.Println("User chose not to search for more pre-existing Algorand Data directories. Exiting...")
 		os.Exit(0)
 	}

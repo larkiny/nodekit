@@ -2,16 +2,19 @@ package catchup
 
 import (
 	"context"
-	"github.com/algorandfoundation/algorun-tui/api"
-	"github.com/algorandfoundation/algorun-tui/cmd/utils"
-	"github.com/algorandfoundation/algorun-tui/internal/algod"
-	"github.com/algorandfoundation/algorun-tui/ui/style"
+	"github.com/algorandfoundation/nodekit/api"
+	"github.com/algorandfoundation/nodekit/cmd/utils"
+	"github.com/algorandfoundation/nodekit/internal/algod"
+	"github.com/algorandfoundation/nodekit/ui/style"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 )
 
+// stopCmdShort provides a concise description of the "stop" command.
 var stopCmdShort = "Stop a fast catchup"
+
+// stopCmdLong provides a detailed description for the "stop" command including its functionality and important notes.
 var stopCmdLong = lipgloss.JoinVertical(
 	lipgloss.Left,
 	style.Purple(style.BANNER),
@@ -50,7 +53,3 @@ var stopCmd = utils.WithAlgodFlags(&cobra.Command{
 
 	},
 }, &dataDir)
-
-func init() {
-	stopCmd.Flags().BoolVarP(&force, "force", "f", false, style.Yellow.Render("forcefully catchup the node"))
-}

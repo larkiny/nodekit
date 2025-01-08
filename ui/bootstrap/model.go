@@ -1,7 +1,7 @@
 package bootstrap
 
 import (
-	"github.com/algorandfoundation/algorun-tui/ui/app"
+	"github.com/algorandfoundation/nodekit/ui/app"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
@@ -73,10 +73,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				switch m.Question {
 				case InstallQuestion:
 					m.Question = CatchupQuestion
-					m.BootstrapMsg.Install = true
+					m.BootstrapMsg.Install = false
 				case CatchupQuestion:
 					m.Question = WaitingQuestion
-					m.BootstrapMsg.Catchup = true
+					m.BootstrapMsg.Catchup = false
 				case WaitingQuestion:
 					return m, tea.Sequence(m.Outside.Emit(m.BootstrapMsg), tea.Quit)
 				}
