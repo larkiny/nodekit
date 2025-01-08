@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: "Troubleshooting: Getting Started"
 description: Troubleshooting nodekit installation
 ---
 
