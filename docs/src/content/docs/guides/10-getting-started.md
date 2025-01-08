@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: Getting Started with nodekit
 description: Installing nodekit
 ---
 

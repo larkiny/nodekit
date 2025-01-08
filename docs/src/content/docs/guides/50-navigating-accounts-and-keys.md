@@ -1,5 +1,5 @@
 ---
-title: Navigating accounts and keys in Nodekit
+title: Navigating accounts and keys
 description: Navigating accounts and keys in Nodekit
 ---
 
@@ -28,4 +28,3 @@ Press `ENTER` to view the key information.
 From this screen, you can press `ESC` to return back to they keys list, `D` to delete a participation key, or `R` to register your key online or offline.
 
 ![](/assets/nodekit-navigate-keys.gif)
-

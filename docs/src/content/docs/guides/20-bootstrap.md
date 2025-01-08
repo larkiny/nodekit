@@ -1,5 +1,5 @@
 ---
-title: Installing and bootstrapping the Algorand node
+title: Installing the Algorand node
 description: Installing and bootstrapping the Algorand node
 ---
 
