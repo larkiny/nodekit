@@ -3,9 +3,11 @@ title: "Troubleshooting: Installing and bootstrapping the Algorand node"
 description: Troubleshooting nodekit bootstrap
 ---
 
+:::note
 This section outlines **common errors encountered** during the "bootstrap" node installation process.
 
 **If you are looking for the instructions instead, they are located [here](/guides/20-bootstrap).**
+:::
 
 ### Asking for password
 

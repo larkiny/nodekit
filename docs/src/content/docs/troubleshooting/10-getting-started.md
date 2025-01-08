@@ -3,9 +3,11 @@ title: "Troubleshooting: Getting Started"
 description: Troubleshooting nodekit installation
 ---
 
+:::note
 This section outlines **common errors encountered** when executing the nodekit installation command.
 
 **If you are looking for the installation instructions instead, they are located [here](/guides/10-getting-started).**
+:::
 
 ### A nodekit file already exists in the current directory.
 
