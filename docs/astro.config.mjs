@@ -25,8 +25,8 @@ export default defineConfig({
 					autogenerate: { directory: 'troubleshooting' },
 				},
 				{
-					label: 'Reference',
-					// collapsed: true,
+					label: 'Command Reference',
+					collapsed: true,
 					autogenerate: { directory: 'reference' },
 				},
 			],
