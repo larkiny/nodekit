@@ -39,3 +39,4 @@ Nodekit will detect the key registration and take you back to the Key informatio
 
 You can press `ESC` to leave the key information modal.
 
+That was it! Your node is now participating in Algorand consensus. If your account balance is over 30,000 ALGO, it will accumulate rewards for each block it proposes on the Algorand network.
