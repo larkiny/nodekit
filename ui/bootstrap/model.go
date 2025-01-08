@@ -22,7 +22,7 @@ It looks like you're running this for the first time. Would you like to install 
 
 const CatchupQuestionMsg = `# Catching Up
 
-Regular sync with the network usually takes multiple days to weeks. You can optionally perform fast-catchup to sync within minutes instead.
+Regular sync with the network usually takes multiple days to weeks. You can optionally perform fast-catchup to sync in 30-60 minutes instead.
  
 Would you like to preform a fast-catchup after installation? (Y/n)
 `

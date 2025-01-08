@@ -27,7 +27,7 @@ You can respond by pressing the `y` or `n` keys of your keyboard, for `yes` and 
 
 It will then ask if you want to perform a "fast-catchup" with the network after installation is complete:
 
-> Regular sync with the network usually takes multiple days to weeks. You can optionally perform fast-catchup to sync within minutes instead.
+> Regular sync with the network usually takes multiple days to weeks. You can optionally perform fast-catchup to sync in 30-60 minutes instead.
 >
 > Would you like to preform a fast-catchup after installation? (Y/n)
 
