@@ -18,14 +18,14 @@ To get started with Nodekit, copy-paste this command in your terminal:
 curl -fsSL https://nodekit.run/install.sh | bash
 ```
 
-This will detect your operating system and download the appropriate nodekit executable to your local directory.
+This will detect your operating system and download the appropriate Nodekit executable to your local directory.
 
 It will then immediately start the bootstrap process to get your Algorand node up and running:
 
 ![Screenshot of a typical Nodekit installation process](/assets/nodekit-install.png)
 
 :::note
-**Did you encounted any errors?**
+**Did you encounter any errors?**
 Check out the [Troubleshooting: Getting Started](/troubleshooting/10-getting-started) section.
 :::
 
