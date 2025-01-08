@@ -13,13 +13,14 @@ This section outlines **common errors encountered** during the participation key
 
 Occasionally, Nodekit may fall out of sync with the Algorand node while waiting for the participation keys to be generated. In this case this error message will be shown:
 
-![](/assets/nodekit-error-keygen-failed.png)
-
 You can:
 
-- wait for the participation keys to appear in the Accounts list, or
-- try to generate a participation key again.
-  - If the key generation process is still running on the node, you will see a ["Participation key generation already in progress"](#participation-key-generation-already-in-progress) error.
+- wait for the participation keys to appear in the Accounts list
+- try to generate a participation key again
+  - If the key generation process is still running on the node, you will see a ["Participation key generation already in progress"](#participation-key-generation-already-in-progress) error
+
+![](/assets/nodekit-error-keygen-failed.png)
+
 
 ### Participation key generation already in progress
 

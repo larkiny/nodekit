@@ -51,7 +51,7 @@ When your participation keys are ready, Nodekit will display the key information
 
 You are now one step away from participating in Algorand consensus!
 
-As the on screen message indicates, you can press R to start [Registering your keys](./40-register-keys-online).
+As the on screen message indicates, you can press R to start [Registering your keys](/guides/40-register-online).
 
 :::note
 **Did you encounted any errors?**
