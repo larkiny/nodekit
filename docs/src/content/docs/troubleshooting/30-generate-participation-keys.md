@@ -1,5 +1,5 @@
 ---
-title: "Troubleshooting: Generating consensus participation keys"
+title: "Troubleshooting: Generating participation keys"
 description: Troubleshooting participation key generation with Nodekit
 ---
 

@@ -1,6 +1,6 @@
 ---
-title: Generating consensus participation keys
-description: Generating consensusparticipation keys with nodekit
+title: Generating participation keys
+description: Generating participation keys with nodekit
 ---
 
 If it is not running already, start nodekit with this command:
@@ -55,5 +55,5 @@ As the on screen message indicates, you can press R to start [Registering your k
 
 :::note
 **Did you encounted any errors?**
-Check out the [Troubleshooting: Generating consensus participation keys](/troubleshooting/30-generate-participation-keys) section.
+Check out the [Troubleshooting: Generating participation keys](/troubleshooting/30-generate-participation-keys) section.
 :::

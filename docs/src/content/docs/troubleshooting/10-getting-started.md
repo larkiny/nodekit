@@ -22,3 +22,15 @@ rm nodekit
 ```
 
 And then run the [Getting Started](/guides/10-getting-started) command again.
+
+### Command not found: bash
+
+Some versions of Mac OS may not include the required `bash` executable that runs the installer.
+
+If you get an error about `bash` not being available, please install bash on your system manually.
+
+For Mac OS, a popular way to do this is to install [Homebrew](https://brew.sh/) and then install bash using:
+
+```bash
+brew install bash
+```
