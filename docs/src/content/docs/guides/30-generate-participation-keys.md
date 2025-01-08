@@ -31,9 +31,9 @@ Nodekit will ask the number of days that the participation keys will be valid fo
 
 ![](/assets/nodekit-partkey-gen-2.png)
 
-You can press the S key to cycle through duration modes in days / months / rounds.
+You can press the `S` key to cycle through duration modes in days / months / rounds.
 
-The longer your duration, the longer the participation key generation step will take to complete. 
+The longer your duration, the longer the participation key generation step will take to complete.
 
 ## Key generation
 
@@ -45,13 +45,13 @@ The time required for this step will depend on your participation key duration. 
 
 ## Done
 
-When your participation keys are ready, Nodekit will display the key information as shown below.
+When your participation keys are ready, nodekit will display the key information as shown below.
 
 ![](/assets/nodekit-partkey-gen-4.png)
 
 You are now one step away from participating in Algorand consensus!
 
-As the on screen message indicates, you can press R to start [Registering your keys](/guides/40-register-online).
+As the on screen message indicates, you can press `R` to start [Registering your keys](/guides/40-register-online).
 
 :::note
 **Did you encounted any errors?**

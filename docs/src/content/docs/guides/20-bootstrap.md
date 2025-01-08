@@ -13,15 +13,15 @@ The bootstrap process is automatically started after following the [nodekit inst
 
 ## Prompts: Installation and Fast-catchup
 
-Nodekit bootstrap will check to see if there is a node already installed.
+`nodekit bootstrap` will check to see if there is a node already installed.
 
 If there is none, it will ask if you want to start a node installation:
 
 > Installing A Node
 >
-> It looks like you're running this for the first time. Would you like to install a node? (Y/n)
+> It looks like you're running this for the first time. Would you like to install a node? (Y/N)
 
-You can respond by pressing the `y` or `n` keys of your keyboard, for `yes` and `no` respectively.
+You can respond by pressing the `Y` or `N` keys of your keyboard, for `Yes` and `No` respectively.
 
 ---
 
@@ -29,19 +29,19 @@ It will then ask if you want to perform a "fast-catchup" with the network:
 
 > Regular sync with the network usually takes multiple days to weeks. You can optionally perform fast-catchup to sync in 30-60 minutes instead.
 >
-> Would you like to preform a fast-catchup after installation? (Y/n)
+> Would you like to preform a fast-catchup after installation? (Y/N)
 
 Fast-catchup saves a lot of time, so we recommend responding Yes.
 
 ---
 
-Assuming you have responded "yes" to the node install prompt, you will now be prompted for your user password:
+Assuming you have responded "Yes" to the node install prompt, you will now be prompted for your user password:
 
 ```
 WARN (You may be prompted for your password)
 INFO Installing Algod on Linux
 INFO Installing with apt-get
-[sudo] password for user: 
+[sudo] password for user:
 ```
 
 Your operating system requires this to allow Nodekit to install the Algorand node software. Enter your user password and press ENTER to proceed.

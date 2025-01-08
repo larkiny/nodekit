@@ -21,7 +21,7 @@ You will be taken to the Lora Transaction Wizard, where you should see the key i
 
 ![](/assets/lora-keyreg.png)
 
-Now you need to:
+Next you need to:
 
 1. Select `Connect Wallet` on the top right and connect your wallet.
 
@@ -29,7 +29,7 @@ Now you need to:
 
 3. Sign the transaction
 
-The transaction will be submitted to the network. If it is accepted successfully, you will see a visual confirmation in Lora like the one displayed below:
+The transaction will be submitted to the network. If it is accepted, you will see a visual confirmation in Lora similar to the one displayed below:
 
 ![](/assets/lora-txn-ok.png)
 
@@ -39,4 +39,4 @@ Nodekit will detect the key registration and take you back to the Key informatio
 
 You can press `ESC` to leave the key information modal.
 
-That was it! Your node is now participating in Algorand consensus. If your account balance is over 30,000 ALGO, it will accumulate rewards for each block it proposes on the Algorand network.
+That's it! Your node is now participating in Algorand consensus. If your account balance is over 30,000 ALGO, it will accumulate rewards for each block it proposes on the Algorand network.
