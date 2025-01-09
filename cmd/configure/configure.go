@@ -55,7 +55,7 @@ func configureNode() error {
 
 	// Check systemctl first
 	if algod.IsService() {
-		if promptWrapperYes("Algorand is installed as a service. Do you wish to edit the service file to change the data directory? (Y/N)") {
+		if promptWrapperYes("Algorand is installed as a service. Do you wish to edit the service file to change the data directory? (y/N)") {
 			// Edit the service file with the user's new data directory
 			systemServiceConfigure = true
 		} else {

@@ -21,7 +21,7 @@ If there is none, it will ask if you want to start a node installation:
 
 > Installing A Node
 >
-> It looks like you're running this for the first time. Would you like to install a node? (Y/N)
+> It looks like you're running this for the first time. Would you like to install a node? (y/n)
 
 You can respond by pressing the `Y` or `N` keys of your keyboard, for `Yes` and `No` respectively.
 
@@ -31,7 +31,7 @@ It will then ask if you want to perform a "fast-catchup" with the network:
 
 > Regular sync with the network usually takes multiple days to weeks. You can optionally perform fast-catchup to sync in 30-60 minutes instead.
 >
-> Would you like to preform a fast-catchup after installation? (Y/N)
+> Would you like to preform a fast-catchup after installation? (y/n)
 
 Fast-catchup saves a lot of time, so we recommend responding Yes.
 
