@@ -7,7 +7,7 @@ sidebar:
 
 After generating a participation key, you can press `R` to start registering it on the Algorand network.
 
-You can also start this flow by pressing `R` on the [key information screen](/navigating-accounts-and-keys/) shown below.
+You can also start this flow by pressing `R` on the [key information screen](/guides/navigating-accounts-and-keys/) shown below.
 
 ![](/assets/nodekit-key-info.png)
 
