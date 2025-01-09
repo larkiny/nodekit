@@ -17,14 +17,14 @@ const (
 
 const InstallQuestionMsg = `# Installing A Node
 
-It looks like you're running this for the first time. Would you like to install a node? (Y/n)
+It looks like you're running this for the first time. Would you like to install a node? (Y/N)
 `
 
 const CatchupQuestionMsg = `# Catching Up
 
 Regular sync with the network usually takes multiple days to weeks. You can optionally perform fast-catchup to sync in 30-60 minutes instead.
  
-Would you like to preform a fast-catchup after installation? (Y/n)
+Would you like to preform a fast-catchup after installation? (Y/N)
 `
 
 type Model struct {
