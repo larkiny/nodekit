@@ -3,8 +3,7 @@
 set -euo pipefail
   
 os=$(uname -ms)
-release="https://github.com/algorandfoundation/nodekit/releases/download"
-version="v1.0.0-beta.5"
+release="https://github.com/algorandfoundation/nodekit/releases/latest/download"
 
 Red=''
 Green=''
@@ -97,7 +96,7 @@ chmod +x nodekit
 trap - int
 trap - exit
 
-success "Downloaded: ${Bold_Green}nodekit ${version} 🎉${Reset}"
+success "Downloaded: ${Bold_Green}${target} as nodekit 🎉${Reset}"
 info "Explore all nodekit options with:"
 echo "./nodekit --help"
 echo ""
