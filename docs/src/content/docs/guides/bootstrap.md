@@ -31,7 +31,7 @@ It will then ask if you want to perform a "fast-catchup" with the network:
 
 > Regular sync with the network usually takes multiple days to weeks. You can optionally perform fast-catchup to sync in 30-60 minutes instead.
 >
-> Would you like to preform a fast-catchup after installation? (Y/N)
+> Would you like to preform a fast-catchup after installation? (y/n)
 
 Fast-catchup saves a lot of time, so we recommend responding Yes.
 
