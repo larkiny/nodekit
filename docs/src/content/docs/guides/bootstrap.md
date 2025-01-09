@@ -21,7 +21,7 @@ If there is none, it will ask if you want to start a node installation:
 
 > Installing A Node
 >
-> It looks like you're running this for the first time. Would you like to install a node? (Y/N)
+> It looks like you're running this for the first time. Would you like to install a node? (y/n)
 
 You can respond by pressing the `Y` or `N` keys of your keyboard, for `Yes` and `No` respectively.
 
