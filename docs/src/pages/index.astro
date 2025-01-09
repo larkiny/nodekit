@@ -2,7 +2,6 @@
 import { Code } from "@astrojs/starlight/components";
 import { Icon } from "@astrojs/starlight/components";
 
-
 const base = import.meta.env.BASE_URL;
 export const lang = "en";
 ---
@@ -15,6 +14,20 @@ export const lang = "en";
             content="One stop shop for Algorand node running"
         />
         <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
+        <!-- Facebook Meta Tags -->
+        <meta property="og:url" content="https://nodekit.run" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="nodekit.run" />
+        <meta property="og:description" content="One stop shop for Algorand node running" />
+        <meta property="og:image" content="/nodekit.png" />
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="nodekit.run" />
+        <meta property="twitter:url" content="https://nodekit.run" />
+        <meta name="twitter:title" content="nodekit.run" />
+        <meta name="twitter:description" content="One stop shop for Algorand node running" />
+        <meta name="twitter:image" content="/nodekit.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style is:global>
             * {
@@ -47,10 +60,10 @@ export const lang = "en";
                 animation: scroll 120s linear infinite;
             }
             .expressive-code .copy button::before {
-                --ec-frm-inlBtnBrd: #BFBFF9;
+                --ec-frm-inlBtnBrd: #bfbff9;
             }
             .expressive-code .copy button::after {
-                --ec-frm-inlBtnFg: #BFBFF9;
+                --ec-frm-inlBtnFg: #bfbff9;
             }
         </style>
     </head>
@@ -107,10 +120,16 @@ export const lang = "en";
             >
                 <div class="inline-flex animate-scroll">
                     <span class="text-white/10 font-mono">
-                        wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8= SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI= mFgazF+2uRS1tMiL9dsj01hJGySEmPN28B/TjjvpVW0= kUt08LxeVAAGHnh4JoAoAMM9ql/hBwSoiFtlnKNeOxA=
+                        wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=
+                        SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=
+                        mFgazF+2uRS1tMiL9dsj01hJGySEmPN28B/TjjvpVW0=
+                        kUt08LxeVAAGHnh4JoAoAMM9ql/hBwSoiFtlnKNeOxA=
                     </span>
                     <span class="text-white/10 font-mono">
-                        wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8= SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI= mFgazF+2uRS1tMiL9dsj01hJGySEmPN28B/TjjvpVW0= kUt08LxeVAAGHnh4JoAoAMM9ql/hBwSoiFtlnKNeOxA=
+                        wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=
+                        SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=
+                        mFgazF+2uRS1tMiL9dsj01hJGySEmPN28B/TjjvpVW0=
+                        kUt08LxeVAAGHnh4JoAoAMM9ql/hBwSoiFtlnKNeOxA=
                     </span>
                 </div>
             </div>
