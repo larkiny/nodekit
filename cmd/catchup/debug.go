@@ -23,7 +23,7 @@ type Catchpoint struct {
 	// LatestCatchpoint holds the most recent catchpoint identifier captured by the service, if available.
 	LatestCatchpoint *string `json:"latest"`
 
-	// CatchpointScore scores the node based on how well it can preform a catchup
+	// CatchpointScore scores the node based on how well it can perform a catchup
 	CatchpointScore int `json:"score"`
 }
 

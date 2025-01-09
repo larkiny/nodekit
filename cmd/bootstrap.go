@@ -33,7 +33,7 @@ var bootstrapCmdLong = lipgloss.JoinVertical(
 	"",
 	style.BoldUnderline("Overview:"),
 	"Get up and running with a fresh Algorand node.",
-	"Uses the local package manager to install Algorand, and then starts the node and preforms a Fast-Catchup.",
+	"Uses the local package manager to install Algorand, and then starts the node and performs a Fast-Catchup.",
 	"",
 	style.Yellow.Render("Note: This command only supports the default data directory, /var/lib/algorand"),
 )
