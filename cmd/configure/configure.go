@@ -84,7 +84,7 @@ func configureNode() error {
 			fmt.Println("Found valid Algorand Data Directory: " + algorandData)
 
 			if systemServiceConfigure {
-				if promptWrapperYes("Would you like to set the ALGORAND_DATA env variable as the data directory for the systemd Algorand service? (Y/N)") {
+				if promptWrapperYes("Would you like to set the ALGORAND_DATA env variable as the data directory for the systemd Algorand service? (y/N)") {
 					editAlgorandServiceFile(algorandData)
 					os.Exit(0)
 				}
