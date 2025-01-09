@@ -3,8 +3,7 @@
 set -euo pipefail
   
 os=$(uname -ms)
-release="https://github.com/algorandfoundation/nodekit/releases/download"
-version="v1.0.0-beta.5"
+release="https://github.com/algorandfoundation/nodekit/releases/latest/download"
 
 Red=''
 Green=''
@@ -57,29 +56,32 @@ trap "info Exiting the installation" exit
 
 case $os in
 'Darwin x86_64')
-    target=nodekit-amd64-darwin
+    platform=amd64-darwin
     ;;
 'Darwin arm64')
-    target=nodekit-arm64-darwin
+    platform=arm64-darwin
     ;;
 'Linux aarch64' | 'Linux arm64')
-    target=nodekit-arm64-linux
+    platform=arm64-linux
     ;;
 'Linux x86_64' | *)
-    target=nodekit-amd64-linux
+    platform=amd64-linux
     ;;
 esac
  
-echo -e "${Opaque}Downloading:${Reset}${Bold_White} $target $version${Reset}"
-curl --fail --location --progress-bar --output nodekit "$release/$version/$target" ||
-  error "Failed to download ${target} from ${release}"
+target="nodekit-$platform"
+url="$release/$target"
+
+echo -e "${Opaque}Downloading:${Reset}${Bold_White} $target ${Reset}from $url"
+curl --fail --location --progress-bar --output nodekit "$url" ||
+  error "Failed to download ${target} from ${release} ${url}"
 
 chmod +x nodekit
 
 trap - int
 trap - exit
 
-success "Downloaded: ${Bold_Green}nodekit ${version} 🎉${Reset}"
+success "Downloaded: ${Bold_Green}${target} as nodekit 🎉${Reset}"
 info "Explore all nodekit options with:"
 echo "./nodekit --help"
 echo ""
