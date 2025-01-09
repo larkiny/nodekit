@@ -1,11 +1,13 @@
 ---
 title: Registering your keys online
-description: Registering your participation keys online with nodekit
+description: Registering your participation keys online with NodeKit
+sidebar:
+  order: 40
 ---
 
 After generating a participation key, you can press `R` to start registering it on the Algorand network.
 
-You can also start this flow by pressing `R` on the [key information screen](/50-navigating-accounts-and-keys/) shown below.
+You can also start this flow by pressing `R` on the [key information screen](/navigating-accounts-and-keys/) shown below.
 
 ![](/assets/nodekit-key-info.png)
 
@@ -33,7 +35,7 @@ The transaction will be submitted to the network. If it is accepted, you will se
 
 ![](/assets/lora-txn-ok.png)
 
-Nodekit will detect the key registration and take you back to the Key information view:
+NodeKit will detect the key registration and take you back to the Key information view:
 
 ![](/assets/nodekit-keyreg-success.png)
 

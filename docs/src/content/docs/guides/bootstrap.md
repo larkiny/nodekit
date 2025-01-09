@@ -1,11 +1,13 @@
 ---
 title: Bootstrapping the Algorand node
 description: Installing and bootstrapping the Algorand node
+sidebar:
+  order: 20
 ---
 
 ## How to start the process
 
-The bootstrap process is automatically started after following the [nodekit installation instructions](/guides/10-getting-started), but it can also be triggered manually by running this command:
+The bootstrap process is automatically started after following the [NodeKit installation instructions](/guides/getting-started), but it can also be triggered manually by running this command:
 
 ```bash
 ./nodekit bootstrap
@@ -44,7 +46,7 @@ INFO Installing with apt-get
 [sudo] password for user:
 ```
 
-Your operating system requires this to allow Nodekit to install the Algorand node software. Enter your user password and press ENTER to proceed.
+Your operating system requires this to allow NodeKit to install the Algorand node software. Enter your user password and press ENTER to proceed.
 
 ## Installation
 
@@ -56,7 +58,7 @@ The installation phase should only take a few minutes. Your terminal will look l
 
 ## Fast catchup
 
-After installation is complete, Nodekit will automatically start the Nodekit user interface.
+After installation is complete, NodeKit will automatically start the NodeKit user interface.
 
 This will display the progress of catching up to the latest state of the Algorand network:
 
@@ -70,5 +72,5 @@ When the process is done, the Fast Catchup status information will disappear and
 
 :::note
 **Did you encounted any errors?**
-Check out the [Troubleshooting: Installing and bootstrapping the Algorand node](/troubleshooting/20-bootstrap) section.
+Check out the [Troubleshooting: Installing and bootstrapping the Algorand node](/troubleshooting#bootstrapping-the-algorand-node) section.
 :::

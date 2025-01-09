@@ -1,6 +1,8 @@
 ---
 title: Navigating accounts and keys
-description: Navigating accounts and keys in Nodekit
+description: Navigating accounts and keys in NodeKit
+sidebar:
+  order: 50
 ---
 
 If it is not running already, start nodekit with this command:
