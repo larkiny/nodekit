@@ -17,7 +17,7 @@ const (
 
 const InstallQuestionMsg = `# Installing A Node
 
-It looks like you're running this for the first time. Would you like to install a node? (Y/N)
+It looks like you're running this for the first time. Would you like to install a node? (y/n)
 `
 
 const CatchupQuestionMsg = `# Catching Up
