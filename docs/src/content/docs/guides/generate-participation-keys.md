@@ -1,9 +1,11 @@
 ---
 title: Generating participation keys
-description: Generating participation keys with nodekit
+description: Generating participation keys with NodeKit
+sidebar:
+  order: 30
 ---
 
-If it is not running already, start nodekit with this command:
+If it is not running already, start NodeKit with this command:
 
 ```bash
 ./nodekit
@@ -19,7 +21,7 @@ You will only be able to generate participation keys after your node is in a `RU
 
 Press the `G` key to start generating participation keys.
 
-Nodekit will ask the account address that you will be participating in consensus:
+NodeKit will ask the account address that you will be participating in consensus:
 
 ![](/assets/nodekit-partkey-gen-1.png)
 
@@ -27,13 +29,13 @@ Enter your account address and press ENTER
 
 ## Select participation key duration
 
-Nodekit will ask the number of days that the participation keys will be valid for:
+NodeKit will ask the number of days that the participation keys will be valid for:
 
 ![](/assets/nodekit-partkey-gen-2.png)
 
-You can press the S key to cycle through duration modes in days / months / rounds.
+You can press the `S` key to cycle through duration modes in days / months / rounds.
 
-The longer your duration, the longer the participation key generation step will take to complete. 
+The longer your duration, the longer the participation key generation step will take to complete.
 
 ## Key generation
 
@@ -45,15 +47,15 @@ The time required for this step will depend on your participation key duration. 
 
 ## Done
 
-When your participation keys are ready, Nodekit will display the key information as shown below.
+When your participation keys are ready, nodekit will display the key information as shown below.
 
 ![](/assets/nodekit-partkey-gen-4.png)
 
 You are now one step away from participating in Algorand consensus!
 
-As the on screen message indicates, you can press R to start [Registering your keys](/guides/40-register-online).
+As the on screen message indicates, you can press `R` to start [Registering your keys](/guides/register-online).
 
 :::note
 **Did you encounted any errors?**
-Check out the [Troubleshooting: Generating participation keys](/troubleshooting/30-generate-participation-keys) section.
+Check out the [Troubleshooting: Generating participation keys](/troubleshooting#generating-participation-keys) section.
 :::

@@ -1,6 +1,8 @@
 ---
-title: Navigating accounts and keys in Nodekit
-description: Navigating accounts and keys in Nodekit
+title: Navigating accounts and keys
+description: Navigating accounts and keys in NodeKit
+sidebar:
+  order: 50
 ---
 
 If it is not running already, start nodekit with this command:
@@ -28,4 +30,3 @@ Press `ENTER` to view the key information.
 From this screen, you can press `ESC` to return back to they keys list, `D` to delete a participation key, or `R` to register your key online or offline.
 
 ![](/assets/nodekit-navigate-keys.gif)
-

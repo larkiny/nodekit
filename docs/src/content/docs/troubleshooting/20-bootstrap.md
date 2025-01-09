@@ -1,5 +1,5 @@
 ---
-title: "Troubleshooting: Installing and bootstrapping the Algorand node"
+title: "Installation/Bootstrapping"
 description: Troubleshooting nodekit bootstrap
 ---
 

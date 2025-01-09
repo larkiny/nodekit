@@ -1,5 +1,5 @@
 ---
-title: "Troubleshooting: Generating participation keys"
+title: "Participation key generation"
 description: Troubleshooting participation key generation with Nodekit
 ---
 
@@ -21,7 +21,6 @@ You can:
 
 ![](/assets/nodekit-error-keygen-failed.png)
 
-
 ### Participation key generation already in progress
 
 This error means that there is a participation key already being generated on the Algorand node.
@@ -29,4 +28,3 @@ This error means that there is a participation key already being generated on th
 You can wait a few minutes, and the key will automatically appear in the Accounts list when it is ready.
 
 ![](/assets/nodekit-error-keygen-already.png)
-
