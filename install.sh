@@ -44,7 +44,7 @@ error() {
 
 prompt_default_no() {
   echo -n "$1 (y/N) "
-  read -rn1 prompt_response
+  read -rn1 prompt_response < /dev/tty
   echo ""
   if [[ "$prompt_response" =~ "y" ]]; then
 	  return 0
