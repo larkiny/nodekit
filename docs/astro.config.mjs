@@ -30,6 +30,9 @@ export default defineConfig({
           autogenerate: { directory: "reference" },
         },
       ],
+      components: {
+        ThemeProvider: "./src/components/CustomThemeProvider.astro",
+      },
       customCss: ["./src/tailwind.css"],
     }),
     tailwind({ applyBaseStyles: true }),
