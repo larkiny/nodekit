@@ -40,7 +40,7 @@ var bootstrapCmdLong = lipgloss.JoinVertical(
 
 var tutorial = `# Welcome!
 
-This is the beginning of your adventure into running the an Algorand node!
+This is the beginning of your adventure into running an Algorand node!
 
 `
 
